@@ -30,7 +30,7 @@ ALIYUN_AK_SECRET = config['aliyun']['accessKeySecret']
 camera = PiCamera()
 camera.resolution = (720, 480)
 
-client = getAliyunIoTClient()
+client = getAliyunIoTClient(PRODUCT_KEY,DEVICE_NAME,DEVICE_SECRET)
 
 def getAliyunIoTClient(productKey, deviceName, deviceSecret):
     timestamp = str(int(time.time()))
