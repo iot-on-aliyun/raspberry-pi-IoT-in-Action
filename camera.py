@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # pip3 install paho-mqtt,picamera,requests
-import PiCamera
+from picamera import PiCamera
 import time
 import random
 import base64
