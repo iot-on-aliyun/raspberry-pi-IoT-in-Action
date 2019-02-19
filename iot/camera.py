@@ -30,7 +30,8 @@ ALIYUN_AK_SECRET = config['aliyun']['accessKeySecret']
 camera = PiCamera()
 camera.resolution = (720, 480)
 
-client = getAliyunIoTClient(PRODUCT_KEY,DEVICE_NAME,DEVICE_SECRET)
+def hmacsha1(key, msg):
+    return hmac.new(key.encode(), msg.encode(), hashlib.sha1).hexdigest()
 
 def getAliyunIoTClient(productKey, deviceName, deviceSecret):
     timestamp = str(int(time.time()))
@@ -42,8 +43,7 @@ def getAliyunIoTClient(productKey, deviceName, deviceSecret):
     client.username_pw_set(USER_NAME, PWD)
     return client
 
-def hmacsha1(key, msg):
-    return hmac.new(key.encode(), msg.encode(), hashlib.sha1).hexdigest()
+client = getAliyunIoTClient(PRODUCT_KEY,DEVICE_NAME,DEVICE_SECRET)
 
 def makeDataplusSignature(bodyStr, date):
     md5Body = md5_base64(bodyStr)
@@ -51,10 +51,8 @@ def makeDataplusSignature(bodyStr, date):
     sign = hmacsha1_base64(ALIYUN_AK_SECRET, stringToSign)
     return "Dataplus " + ALIYUN_AK + ":" + sign
 
-
 def get_current_date():
     return datetime.datetime.strftime(datetime.datetime.utcnow(), "%a, %d %b %Y %H:%M:%S GMT")
-
 
 def hmacsha1_base64(key, msg):
     digest = hmac.new(key.encode(), msg.encode(), hashlib.sha1).digest()
